@@ -13,11 +13,19 @@ class App extends Component {
         super(props)
         this.state = {
             data: [
-                {name: 'Arkadiy K', salary: 3000, increase: false, id: 1},
-                {name: 'Vasiliy E.', salary: 1000, increase: true, id: 2},
-                {name: 'John V.', salary: 5000, increase: false, id: 3}
+                {name: 'Arkadiy K', salary: 3000, increase: false, stars: false,  id: 1},
+                {name: 'Vasiliy E.', salary: 1000, increase: true, stars: false, id: 2},
+                {name: 'John V.', salary: 5000, increase: false, stars: false, id: 3}
             ]
         }
+    }
+
+    onToggleIncrease = (id) => {
+        console.log(`this increase ${id}`)
+    }
+
+    onToggleStars = (id) => {
+        console.log(`this stars ${id}`)
     }
     
     deleteItem = (id) => {
@@ -26,6 +34,21 @@ class App extends Component {
             data: data.filter(item => item.id !== id)
             }
             
+        })
+    }
+
+    addItem = (name, salary) => {
+        const newItem = {
+            name,
+            salary,
+            increase: false,
+            id: this.maxId++
+        } 
+        this.setState(({data}) =>{
+            const newArr = [...data, newItem];
+            return {
+                data: newArr
+            }
         })
     }
     
@@ -41,9 +64,12 @@ class App extends Component {
                 
                 <EmployersList 
                 data={this.state.data}
-                onDelete={this.deleteItem} />
+                onDelete={this.deleteItem}
+                onToggleIncrease={this.onToggleIncrease}
+                onToggleRise={this.onToggleRise} 
+                />
                 
-                <EmployersAddForm />
+                <EmployersAddForm onAdd={this.addItem}/>
             </div>
         );
     }
